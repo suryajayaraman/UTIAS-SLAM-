@@ -6,6 +6,8 @@ http://asrl.utias.utoronto.ca/datasets/mrclam/
 
 
 Scope of Repository
+-------------------
+
 1. Baseline EKF (inspired by Andrew Kramer's work)
 2. Effect of models on filter performace
 3. Comparing UKF and CKF
@@ -14,6 +16,7 @@ Scope of Repository
 
 Reference
 ----------
+
 1. Andrew Kramer's work
 https://github.com/1988kramer/UTIAS-practice
 Output of matlab script (localization/EKF_known_corr) is stored as test.dat which is used as baseline to improve upon.
