@@ -10,6 +10,22 @@ Landmarks_GT_filename = 'Landmark_Groundtruth.dat'
 barcocdes_filename = 'Barcodes.dat'
 
 
+"""
+
+LIST OF FUNCTIONS
+-----------------
+1. load_MRCLAM_dataSet(dataset_path = data_folder_path, n_robots = 1)
+2. conBear(oldBear)
+3. getObservations(Robots, robot_num, t, index, codeDict)
+4. path_loss(Robots, robot_num, start)
+5. sample_MRCLAM_dataSet(Robots, sample_time =0.02)
+
+Functions 1-5 are python adaptations of the code provided along with
+the original UTIAS MRCLAM dataset and the matlab scripts by Andrew kramer
+
+"""
+
+
 def load_MRCLAM_dataSet(dataset_path = data_folder_path, n_robots = 1):
     """
     function for loadin MRCLAM dataset
@@ -172,6 +188,38 @@ def path_loss(Robots, robot_num, start):
         loss = loss + err;
     return loss
 
+def path_loss2(gt_pose, est_pose, start, end = None, include_theta = False):
+    """
+    computes euclidean loss between robot's estimated path and ground truth
+    ignores bearing error
+    
+    Input
+    -----
+    gt_pose  - 2d array of shape N X 3 containing actual    robot pose(x,y,theta)
+    est_pose - 2d array of shape N X 3 containing estimated robot pose(x,y,theta)
+    start    - starting index to evaluate loss from
+    end      - ending index to evaluate loss upto
+    include_theta - Boolean to specify if orientation loss is to be included
+    
+    Output
+    ------
+    loss   - euclidean difference in position between the Groundtruth pose and the Estimated pose
+    """
+    loss = -1
+    if gt_pose.shape == est_pose.shape:
+        
+        if end == None:
+            end = len(gt_pose)
+        position_loss    = np.sqrt(np.square(gt_pose[start:end,0] - est_pose[start:end,0]) + np.square(gt_pose[start:end,1] - est_pose[start:end,1])).sum()
+        loss             = position_loss
+        if include_theta == True:
+            orientation_loss = np.sqrt(np.square(gt_pose[start:end,2] - est_pose[start:end,2])).sum()
+            loss = loss + orientation_loss 
+    else:
+        print('Poses are not of same shape, returning loss of -1')
+    return loss
+
+
 
 def sample_MRCLAM_dataSet(Robots, sample_time =0.02):
     """
@@ -323,6 +371,8 @@ def sample_MRCLAM_dataSet(Robots, sample_time =0.02):
             newData[i,0] = np.floor(oldData[i,0]/sample_time + 0.5)*sample_time; 
         Robots[str(n)]['M'] = newData
     
+    print('Sampled data successfully')
+    print('-------------------------')
     return Robots, timesteps
 
 
@@ -330,7 +380,6 @@ def sample_MRCLAM_dataSet(Robots, sample_time =0.02):
 command to load data of n robots 
 """
 ##barcoders_data, Landmarks_GT_data, Robots = load_MRCLAM_dataSet(n_robots)
-
 
 """
 command to sample to data at constant sample time
