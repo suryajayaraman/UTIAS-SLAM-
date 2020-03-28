@@ -37,7 +37,14 @@ RMSE found is used as baseline for improvement and also tuning of filters.
 Params set for the file
 sample_time = 0.02 seconds, start index = 600, refresh rate = 5.0 seconds;
 
+2.Effect of models on filter performance (EKF_known_correlation_model_update.ipynb)
+---------------------------------------
+Standard Process, Measurement models applied and process noise parameters format changed;
+Process noise parameters are tuned manually and filter performance is slightly worse than baseline
+model; 
 
+Params set for the file
+sample_time = 0.02 seconds, start index = 600, refresh rate = 5.0 seconds;
 
 Reference
 ----------
@@ -52,4 +59,7 @@ https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python
 
 3. Sensor Fusion and Non-Linear filtering course on edX
 https://www.edx.org/course/sensor-fusion-and-non-linear-filtering-for-automot
+
+4. Udacity's Artificial Intelligence for Robotics - Twiddle algorithm
+https://www.udacity.com/course/artificial-intelligence-for-robotics--cs373
 
